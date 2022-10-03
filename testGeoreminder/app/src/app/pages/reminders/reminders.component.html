@@ -1,0 +1,75 @@
+<h1 class="title text-primary">What we have to do today?</h1>
+
+<!-- CARD -->
+
+<mat-card *ngFor="let reminder of this.reminders">
+
+  <div class="d-flex justify-content-between align-items-center">
+
+    <mat-card-title>
+      <i class="bi bi-cloud text-primary fs-1"></i>
+    </mat-card-title>
+
+  <mat-card-content>
+    <h2 class="mb-0 text-primary">
+       {{ reminder.reminder }}
+    </h2>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button class="btn-danger me-3" (click)="deleteReminder(reminder.id)">
+      <i class="bi bi-eraser-fill"></i>
+    </button>
+
+    <button mat-button
+    (click)="saveMarkerToEdit(reminder.id,reminder.latlng,reminder.reminder)"
+      class="btn-warning"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+    >
+      <i class="bi bi-pencil text-white"></i>
+    </button>
+  </mat-card-actions>
+</div>
+</mat-card>
+
+<!-- MODAL -->
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Edit reminder's title
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" [(ngModel)]="savedReminder" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button
+        (click)="editReminder()"
+          type="button"
+          class="btn btn-success"
+          >
+
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

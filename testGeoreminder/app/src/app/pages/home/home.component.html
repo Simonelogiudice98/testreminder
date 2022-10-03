@@ -1,0 +1,61 @@
+<main class="bg-primary">
+  <div class="mapBar d-flex">
+    <!-- <button (click)="addMarker()" class="bg-primary btn"></button> -->
+    <!-- Button trigger modal -->
+    <button
+      type="button"
+      class="btn btn-primary mt-2"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+    >
+      <i class="bi bi-bookmark-plus plus"></i>
+    </button>
+    <!-- bottoni funzioni -->
+    <button class="btn btn-primary text-light mt-2" (click)="scan()">
+      <i class="bi bi-binoculars"></i>
+    </button>
+    <button class="btn btn-primary text-light mt-2" (click)="clearReminders()">
+      <i class="bi bi-trash"></i>
+    </button>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add new reminder</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <input type="text" [(ngModel)]="reminder" />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-success" (click)="addMarker()">
+              Remind me
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="full" id="map"></div>
+</main>

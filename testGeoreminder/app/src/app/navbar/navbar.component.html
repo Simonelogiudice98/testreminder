@@ -1,0 +1,45 @@
+<!-- <div class="container-fluid bg-primary ">
+  <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+
+
+    <i class="bi bi-compass text-light geo"> Geo-Reminder</i>
+
+  </header>
+
+</div> -->
+
+
+
+
+<nav class="navbar navbar-dark bg-primary" aria-label="Dark offcanvas navbar">
+  <div class="container-fluid">
+    <i class="bi bi-compass text-light geo"> Geo-Reminder</i>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarDark" aria-controls="offcanvasNavbarDark">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-end text-white bg-primary" tabindex="-1" id="offcanvasNavbarDark" aria-labelledby="offcanvasNavbarDarkLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title fs-1" id="offcanvasNavbarDarkLabel"><i class="bi bi-compass text-light logo"> Geo-Reminder</i></h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" [routerLink]="''"><i class="bi bi-house"></i> Home</a>
+          </li>
+          <li class="nav-item my-3">
+            <a class="nav-link active" [routerLink]="'reminders'"><i class="bi bi-card-checklist"></i> Reminders</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" [routerLink]="'tutorial'"><i class="bi bi-book"></i> Tutorial</a>
+          </li>
+
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<router-outlet></router-outlet>

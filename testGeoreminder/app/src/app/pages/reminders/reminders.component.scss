@@ -1,0 +1,20 @@
+.title{
+  text-align: center;
+  margin-top:5vh;
+}
+
+mat-card{
+  border:1px solid rgb(50, 80, 130, 0.5);
+  // box-shadow: ;
+  width:60vw;
+
+  margin: 5vh auto;
+
+  button{
+    padding:4px 14px 4px 14px;
+    border-radius: 3px;
+
+  }
+}
+
+
