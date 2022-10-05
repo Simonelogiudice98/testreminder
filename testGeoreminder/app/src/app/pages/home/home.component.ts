@@ -18,12 +18,14 @@ export class HomeComponent implements OnInit {
   id:number = 0;
   markers:M[] = [];
   homeMarker!: L.Marker<any>;
+  homeCircle!: L.Circle<any>;
   yourLat!: number;
   yourLng!: number;
   radiusInKm: number = 1;
   angleInDegrees: number = 90;
   isWatching:boolean = false;
   positionUpdatable:boolean = true;
+  agent = navigator.userAgent;
 
 
 
@@ -35,10 +37,18 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     if (!navigator.geolocation) {
       console.log('location is not supported');
+      switch( navigator.appCodeName){
+        case "Safari":
+
+        break;
+      }
+
     }
     navigator.geolocation.getCurrentPosition((position) => {
       const coords = position.coords;
       this.latLng = [coords.latitude, coords.longitude];
+
+
 
 
       this.map = L.map('map').setView(this.latLng, 13);
@@ -52,7 +62,7 @@ export class HomeComponent implements OnInit {
         .bindPopup('You are here', { closeButton: true })
         .openPopup();
 
-      L.circle(this.latLng, {
+      this.homeCircle = L.circle(this.latLng, {
         color: 'orange',
         radius: 500,
         fillColor: 'orange',
@@ -66,7 +76,8 @@ export class HomeComponent implements OnInit {
 
       this.watchPosition();
 
-      console.log(this.latLng);
+
+
 
     });
   }
@@ -114,16 +125,24 @@ export class HomeComponent implements OnInit {
     let desLng: number = 0;
     let id = navigator.geolocation.watchPosition(
       (position) => {
+
+
+        this.yourLng = position.coords.longitude;
+          this.yourLat = position.coords.latitude;
+          console.log(this.yourLng,this.yourLat);
+
+        if(this.positionUpdatable == true ){
+
+
+          this.positionChange([this.yourLat,this.yourLng])
+        }
+
         if(!this.isWatching){
+
 
           this.isWatching = true;
 
-        this.yourLng = position.coords.longitude;
-        this.yourLat = position.coords.latitude;
 
-        if(this.positionUpdatable == true ){
-          this.positionChange([this.yourLat,this.yourLng])
-        }
 
         let arrive: boolean = this.getDistance();
         // if (arrive == true) {
@@ -134,6 +153,7 @@ export class HomeComponent implements OnInit {
           navigator.geolocation.clearWatch(id); //per controllare se abbiamo raggiunto la destinazione e bloccare il watch
         }
       }
+
       },
       (err) => {
         console.log(err);
@@ -285,8 +305,11 @@ export class HomeComponent implements OnInit {
 
   positionChange(latLng:L.LatLngExpression){
     this.homeMarker.setLatLng(latLng)
-    this.positionUpdatable = false;
-    setTimeout(() => {this.positionUpdatable = true},1000)
+    this.homeCircle.setLatLng(latLng)
+
+    // this.positionUpdatable = false;
+    // setTimeout(() => {this.positionUpdatable = true; console.log("timeout finito");
+    // },1000)
   }
 
 }
