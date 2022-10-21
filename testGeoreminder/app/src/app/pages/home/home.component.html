@@ -1,4 +1,6 @@
 <main class="bg-primary">
+  <!-- <p *ngIf="isLoading">caricamento</p> -->
+
   <div class="mapBar d-flex">
     <!-- <button (click)="addMarker()" class="bg-primary btn"></button> -->
     <!-- Button trigger modal -->
@@ -17,6 +19,7 @@
     <button class="btn btn-primary text-light mt-2" (click)="clearReminders()">
       <i class="bi bi-trash"></i>
     </button>
+
 
     <!-- Modal -->
     <div
@@ -57,5 +60,11 @@
     </div>
   </div>
 
-  <div class="full" id="map"></div>
+
+
+  <div class="full" id="map">
+    <!-- <div id="loading"></div> -->
+  </div>
+
 </main>
+

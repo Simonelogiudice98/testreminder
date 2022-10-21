@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.bouncemarker';
+import { PositionServiceService } from 'src/app/services/position-service.service';
 import Swal from 'sweetalert2';
+
+
 
 // declare const L:any;
 type M = { id: number; latlng: L.LatLngExpression; reminder: string ; read:boolean }
@@ -26,48 +29,57 @@ export class HomeComponent implements OnInit {
   isWatching:boolean = false;
   positionUpdatable:boolean = true;
   agent = navigator.userAgent;
+  isLoading:boolean = true;
 
 
 
 
-  constructor() {}
+  constructor(private positionService: PositionServiceService) {}
 
   // caricamento della mappa
 
   ngOnInit() {
     if (!navigator.geolocation) {
       console.log('location is not supported');
-      switch( navigator.appCodeName){
-        case "Safari":
+      // switch( navigator.appCodeName){
+      //   case "Safari":
 
-        break;
-      }
+      //   break;
+      // }
 
     }
+    // creazione mappa
+
+    this.map = L.map('map').setView(this.positionService.lastMapPos, 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap',
+    }).addTo(this.map);
+    this.homeMarker = L.marker(this.positionService.lastMapPos,{icon:this.homeIcon}).addTo(this.map);
+    this.homeMarker
+      .bindPopup('You are here', { closeButton: true })
+      .openPopup();
+
+    this.homeCircle = L.circle(this.positionService.lastMapPos, {
+      color: 'orange',
+      radius: 500,
+      fillColor: 'orange',
+      opacity: 0.5,
+    }).addTo(this.map);
+
     navigator.geolocation.getCurrentPosition((position) => {
       const coords = position.coords;
-      this.latLng = [coords.latitude, coords.longitude];
+      this.positionService.lastMapPos = [coords.latitude, coords.longitude];
+      this.isLoading = false;
+      // this.positionService.lastMapPos = this.latLng;
+      this.positionService.mapLoading = false;
+
+      this.positionChange(this.positionService.lastMapPos)
 
 
 
 
-      this.map = L.map('map').setView(this.latLng, 13);
-
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© OpenStreetMap',
-      }).addTo(this.map);
-      this.homeMarker = L.marker(this.latLng,{icon:this.homeIcon}).addTo(this.map);
-      this.homeMarker
-        .bindPopup('You are here', { closeButton: true })
-        .openPopup();
-
-      this.homeCircle = L.circle(this.latLng, {
-        color: 'orange',
-        radius: 500,
-        fillColor: 'orange',
-        opacity: 0.5,
-      }).addTo(this.map);
 
 
       this.getSavedMarkers();
@@ -79,7 +91,10 @@ export class HomeComponent implements OnInit {
 
 
 
-    });
+    }, function(err){
+      console.log("errore position", err);
+
+    },{timeout: 2000});
   }
 
   // creazione icona personalizzata
@@ -125,16 +140,21 @@ export class HomeComponent implements OnInit {
     let desLng: number = 0;
     let id = navigator.geolocation.watchPosition(
       (position) => {
+        this.positionService.mapLoading = false;
 
 
-        this.yourLng = position.coords.longitude;
-          this.yourLat = position.coords.latitude;
-          console.log(this.yourLng,this.yourLat);
+
+
+        // this.yourLng = position.coords.longitude;
+        //   this.yourLat = position.coords.latitude;
+          // console.log(this.yourLng,this.yourLat);
+          this.positionService.lastMapPos = [position.coords.latitude,position.coords.longitude]
+
 
         if(this.positionUpdatable == true ){
 
 
-          this.positionChange([this.yourLat,this.yourLng])
+          this.positionChange(this.positionService.lastMapPos)
         }
 
         if(!this.isWatching){
@@ -172,7 +192,7 @@ export class HomeComponent implements OnInit {
 
 
   addMarker() {
-    let marker = L.marker(this.latLng, {
+    let marker = L.marker(this.positionService.lastMapPos, {
       draggable: true,
       bounceOnAdd: true,
       title: 'custom',
@@ -233,7 +253,7 @@ export class HomeComponent implements OnInit {
 
 
 
-      let latlng1 = L.latLng(this.latLng);
+      let latlng1 = L.latLng(this.positionService.lastMapPos);
       let latlng2 = L.latLng(marker.latlng);
       this.reminder = marker.reminder
       this.id = marker.id
