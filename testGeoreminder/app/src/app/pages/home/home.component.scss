@@ -4,6 +4,7 @@ main{
   padding-bottom:8vh ;
   margin-bottom:10vh ;
   margin: 5vh 20vw 10vh 20vw;
+  position:relative;
 
 
 
@@ -40,12 +41,19 @@ main{
 //   z-index: 1;
 // }
 
+.divLoading{
+  position:relative;
+}
 
-// #loading{
-//   background-color: white;
-//   width:100%;
-//   height: 100%;
-//   z-index: 2;
-// }
+#loading{
+ position: absolute;
+ background-color: white;
+ content: "Loading";
+ z-index: 9999999;
+ width:50vw;
+  height:65vh;
+  left:4vw;
+  top:0vh;
+}
 
 

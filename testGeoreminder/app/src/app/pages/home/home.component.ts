@@ -3,6 +3,7 @@ import * as L from 'leaflet';
 import 'leaflet.bouncemarker';
 import { PositionServiceService } from 'src/app/services/position-service.service';
 import Swal from 'sweetalert2';
+import {Router} from "@angular/router"
 
 
 
@@ -29,23 +30,19 @@ export class HomeComponent implements OnInit {
   isWatching:boolean = false;
   positionUpdatable:boolean = true;
   agent = navigator.userAgent;
-  isLoading:boolean = true;
+  isLoading:boolean = false;
 
 
 
 
-  constructor(private positionService: PositionServiceService) {}
+  constructor(private positionService: PositionServiceService, private router: Router) {}
 
   // caricamento della mappa
 
   ngOnInit() {
     if (!navigator.geolocation) {
       console.log('location is not supported');
-      // switch( navigator.appCodeName){
-      //   case "Safari":
-
-      //   break;
-      // }
+      this.router.navigate(['/not-allowed']);
 
     }
     // creazione mappa

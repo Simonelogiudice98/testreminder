@@ -9,7 +9,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { RemindersComponent } from './pages/reminders/reminders.component';
 import { TutorialComponent } from './pages/tutorial/tutorial.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatCardModule} from '@angular/material/card'
+import {MatCardModule} from '@angular/material/card';
+import { NotAllowedComponent } from './pages/not-allowed/not-allowed.component'
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import {MatCardModule} from '@angular/material/card'
     HomeComponent,
     RemindersComponent,
     TutorialComponent,
+    NotAllowedComponent,
 
 
   ],
